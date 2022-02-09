@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">MillonarioGame</string>
     <string name="responde_a_la_siguiente_pregunta">Responde a la siguiente pregunta:</string>
+    <string name="enviar">enviar</string>
+    <string name="preguntas">preguntas</string>
+    <string name="preguntas_totales">Preguntas totales</string>
 </resources>

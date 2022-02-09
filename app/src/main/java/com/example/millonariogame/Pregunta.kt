@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
 @Parcelize
-data class ListaPreguntas (
+data class Pregunta (
     @SerialName("Id")
     val id:Int,
     @SerialName("Pregunta")
