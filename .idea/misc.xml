@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/AlumnoM/AndroidStudioProjects/MillonarioGame0/app/src/main/res/drawable/gradientlogin.xml" value="0.1" />
+        <entry key="..\:/Users/AlumnoM/AndroidStudioProjects/MillonarioGame0/app/src/main/res/layout/activity_main.xml" value="0.24537037037037038" />
+        <entry key="..\:/Users/AlumnoM/AndroidStudioProjects/MillonarioGame0/app/src/main/res/layout/login_main.xml" value="0.1" />
+        <entry key="..\:/Users/AlumnoM/AndroidStudioProjects/MillonarioGame0/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
         <entry key="..\:/Users/mario/AndroidStudioProjects/MillonarioGame/app/src/main/res/drawable/gradient.xml" value="0.2703125" />
         <entry key="..\:/Users/mario/AndroidStudioProjects/MillonarioGame/app/src/main/res/drawable/gradientletras.xml" value="0.2703125" />
         <entry key="..\:/Users/mario/AndroidStudioProjects/MillonarioGame/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2703125" />

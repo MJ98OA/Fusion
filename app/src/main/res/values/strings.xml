@@ -4,4 +4,5 @@
     <string name="enviar">enviar</string>
     <string name="preguntas">preguntas</string>
     <string name="preguntas_totales">Preguntas totales</string>
+    <string name="introduce_un_nombre">Introduce un nombre</string>
 </resources>
