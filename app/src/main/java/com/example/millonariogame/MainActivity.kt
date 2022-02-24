@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         val client = OkHttpClient()
 
         val request = Request.Builder()
-        request.url("http://10.0.2.2:8081/todasRespuestas")
+        request.url("http://10.0.2.2:8083/todasRespuestas")
 
 
         val call = client.newCall(request.build())
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                         val client = OkHttpClient()
 
                         val request = Request.Builder()
-                        request.url("http://10.0.2.2:8081/getPreguntaRandom")
+                        request.url("http://10.0.2.2:8083/getPreguntaRandom")
 
 
                         val call = client.newCall(request.build())
@@ -163,10 +163,11 @@ class MainActivity : AppCompatActivity() {
                     binding.preguntastotales.text= totales.toString()
 
                 }else{
+
                     totales++
                     binding.preguntasAciertos.text= aciertos.toString()
                     binding.preguntastotales.text= totales.toString()
-                    Toast.makeText(this@MainActivity,"Has fallado", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity,"Has fallado"+resSeleccionada+solucion, Toast.LENGTH_SHORT).show()
                 }
 
 
