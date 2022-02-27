@@ -38,8 +38,6 @@ class Login : AppCompatActivity() {
                 contra = it.contains("(?=.*[a-zA-Z])(?=.*[0-9])".toRegex()) && it.length >= 8
                 activar(nombre, contra)
             }
-
-
         }
 
         binding.nombre.doAfterTextChanged {
@@ -82,9 +80,9 @@ class Login : AppCompatActivity() {
 
 
                         CoroutineScope(Dispatchers.Main).launch {
-                            Toast.makeText(this@Login, body, Toast.LENGTH_SHORT).show()
-
+                            //Toast.makeText(this@Login, body, Toast.LENGTH_SHORT).show()
                         }
+
                         val intent = Intent(this@Login, MainActivity::class.java)
                         intent.putExtra("TokenUser", body)
                         startActivity(intent)
