@@ -36,7 +36,7 @@ class Login : AppCompatActivity() {
 
             it?.let {
                 contra = it.contains("(?=.*[a-zA-Z])(?=.*[0-9])".toRegex()) && it.length >= 8
-                activar(nombre,contra)
+                activar(nombre, contra)
             }
 
 
@@ -44,8 +44,10 @@ class Login : AppCompatActivity() {
 
         binding.nombre.doAfterTextChanged {
 
-            it?.let { nombre = it.length >= 3
-                activar(nombre,contra)}
+            it?.let {
+                nombre = it.length >= 3
+                activar(nombre, contra)
+            }
         }
 
         binding.boton.setOnClickListener {
@@ -56,11 +58,14 @@ class Login : AppCompatActivity() {
             val request = Request.Builder()
             request.url("http://10.0.2.2:8083/creacionUsuario")
             val mediaType = "application/json; charset=utf-8".toMediaType()
-            val requestBody = Usuario(binding.nombre.text.toString(), binding.contrasenia.text.toString()).toString().toRequestBody(mediaType)
+            val requestBody = Usuario(
+                binding.nombre.text.toString(),
+                binding.contrasenia.text.toString()
+            ).toString().toRequestBody(mediaType)
             request.post(requestBody)
 
             val call = client.newCall(request.build())
-            call.enqueue( object : Callback {
+            call.enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     println(e.toString())
                     CoroutineScope(Dispatchers.Main).launch {
@@ -68,6 +73,7 @@ class Login : AppCompatActivity() {
                     }
 
                 }
+
                 override fun onResponse(call: Call, response: Response) {
 
                     response.body?.let { responseBody ->
@@ -80,10 +86,10 @@ class Login : AppCompatActivity() {
 
                         }
                         val intent = Intent(this@Login, MainActivity::class.java)
-                        intent.putExtra("TokenUser",body)
+                        intent.putExtra("TokenUser", body)
                         startActivity(intent)
-                        }
                     }
+                }
 
             })
 
@@ -92,14 +98,13 @@ class Login : AppCompatActivity() {
 
     }
 
-    fun activar(nomb:Boolean,cont: Boolean) {
+    fun activar(nomb: Boolean, cont: Boolean) {
 
         if (cont && nomb) {
             binding.boton.visibility = View.VISIBLE
         } else
             binding.boton.visibility = View.GONE
     }
-
 
 
 }

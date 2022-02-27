@@ -7,7 +7,7 @@ import kotlinx.serialization.SerialName
 @Parcelize
 class Respuesta(
     @SerialName("id")
-    val id:Int,
+    val id: Int,
     @SerialName("solucion")
-    val solucion:String
-):Parcelable
+    val solucion: String
+) : Parcelable

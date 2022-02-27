@@ -3,18 +3,19 @@ package com.example.millonariogame
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
+
 @Parcelize
-data class Pregunta (
+data class Pregunta(
     @SerialName("Id")
-    val id:Int,
+    val id: Int,
     @SerialName("Pregunta")
-    val pregunta:String,
+    val pregunta: String,
     @SerialName("OpcionA")
-    val respuesta1:String,
+    val respuesta1: String,
     @SerialName("OpcionB")
-    val respuesta2:String,
+    val respuesta2: String,
     @SerialName("OpcionC")
-    val respuesta3:String,
+    val respuesta3: String,
     @SerialName("OpcionD")
-    val respuesta4:String
-    ) : Parcelable
+    val respuesta4: String
+) : Parcelable
