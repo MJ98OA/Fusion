@@ -1,5 +1,6 @@
 package com.example.millonariogame
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -36,12 +37,16 @@ class MainActivity : AppCompatActivity() {
         binding= ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-        llamada()
+        val initialData = intent.getStringExtra("TokenUser")
+        initialData?.let {
+            llamada(initialData)
+        }
+
 
 
     }
 
-    private fun llamada() {
+    private fun llamada(token:String) {
 
         binding.pbDownloading.visibility = View.VISIBLE
 
@@ -75,7 +80,7 @@ class MainActivity : AppCompatActivity() {
                         val client = OkHttpClient()
 
                         val request = Request.Builder()
-                        request.url("http://10.0.2.2:8083/getPreguntaRandom")
+                        request.url("http://10.0.2.2:8083/getPreguntaRandom/$token")
 
 
                         val call = client.newCall(request.build())
@@ -88,6 +93,7 @@ class MainActivity : AppCompatActivity() {
                                 }
                             }
 
+
                             override fun onResponse(call: Call, response: Response) {
                                 response.body?.let { responseBody ->
                                     val body = responseBody.string()
@@ -97,6 +103,15 @@ class MainActivity : AppCompatActivity() {
                                     val pregunta = gson.fromJson(body, Pregunta::class.java)
                                     val respuesta=listapreguntas[pregunta.id].solucion
                                     CoroutineScope(Dispatchers.Main).launch {
+
+                                        if(pregunta.id==10){
+                                            binding.pbDownloading.visibility=View.VISIBLE
+                                            binding.texto.text="Ya has contestado todas las preguntas disponibles gracias por jugar"
+                                            binding.buttonA.visibility=View.GONE
+                                            binding.buttonB.visibility=View.GONE
+                                            binding.buttonC.visibility=View.GONE
+                                            binding.buttonD.visibility=View.GONE
+                                        }else{
                                         binding.pbDownloading.visibility=View.GONE
 
                                         binding.texto.setText(pregunta.pregunta)
@@ -110,7 +125,7 @@ class MainActivity : AppCompatActivity() {
                                             binding.buttonB.setBackgroundColor(Color.parseColor("#4719B2"))
                                             binding.buttonC.setBackgroundColor(Color.parseColor("#4719B2"))
                                             binding.buttonD.setBackgroundColor(Color.parseColor("#4719B2"))
-                                            activarEnviar(binding.buttonA.text.toString(),respuesta)
+                                            activarEnviar(binding.buttonA.text.toString(),respuesta,token)
 
                                         }
 
@@ -119,7 +134,7 @@ class MainActivity : AppCompatActivity() {
                                             binding.buttonA.setBackgroundColor(Color.parseColor("#4719B2"))
                                             binding.buttonC.setBackgroundColor(Color.parseColor("#4719B2"))
                                             binding.buttonD.setBackgroundColor(Color.parseColor("#4719B2"))
-                                            activarEnviar(binding.buttonB.text.toString(),respuesta)
+                                            activarEnviar(binding.buttonB.text.toString(),respuesta,token)
                                         }
 
                                         binding.buttonC.setOnClickListener {
@@ -127,7 +142,7 @@ class MainActivity : AppCompatActivity() {
                                             binding.buttonA.setBackgroundColor(Color.parseColor("#4719B2"))
                                             binding.buttonB.setBackgroundColor(Color.parseColor("#4719B2"))
                                             binding.buttonD.setBackgroundColor(Color.parseColor("#4719B2"))
-                                            activarEnviar(binding.buttonC.text.toString(),respuesta)
+                                            activarEnviar(binding.buttonC.text.toString(),respuesta,token)
                                         }
 
                                         binding.buttonD.setOnClickListener {
@@ -135,12 +150,13 @@ class MainActivity : AppCompatActivity() {
                                             binding.buttonA.setBackgroundColor(Color.parseColor("#4719B2"))
                                             binding.buttonB.setBackgroundColor(Color.parseColor("#4719B2"))
                                             binding.buttonC.setBackgroundColor(Color.parseColor("#4719B2"))
-                                            activarEnviar(binding.buttonD.text.toString(),respuesta)
+                                            activarEnviar(binding.buttonD.text.toString(),respuesta,token)
                                         }
+                                            }
                                     }
                                 }
                             }
-                        })
+                         })
                     }
                 }
             }
@@ -148,7 +164,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun activarEnviar(resSeleccionada:String, solucion:String){
+    fun activarEnviar(resSeleccionada:String, solucion:String,token: String){
 
             binding.enviar.isVisible=true
             var mirespuesta=resSeleccionada
@@ -161,6 +177,7 @@ class MainActivity : AppCompatActivity() {
                     totales++
                     binding.preguntasAciertos.text = aciertos.toString()
                     binding.preguntastotales.text= totales.toString()
+                    binding.enviar.visibility=View.GONE
 
                 }else{
 
@@ -168,10 +185,11 @@ class MainActivity : AppCompatActivity() {
                     binding.preguntasAciertos.text= aciertos.toString()
                     binding.preguntastotales.text= totales.toString()
                     Toast.makeText(this@MainActivity,"Has fallado"+resSeleccionada+solucion, Toast.LENGTH_SHORT).show()
+                    binding.enviar.visibility=View.GONE
                 }
 
 
-                llamada()
+                llamada(token)
         }
 
 

@@ -30,6 +30,8 @@ class Login : AppCompatActivity() {
         binding = LoginMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+
         binding.contrasenia.doAfterTextChanged {
 
             it?.let {
@@ -52,10 +54,9 @@ class Login : AppCompatActivity() {
             val client = OkHttpClient()
 
             val request = Request.Builder()
-            request.url("http://10.0.2.2:8083/pokemonBody")
+            request.url("http://10.0.2.2:8083/creacionUsuario")
             val mediaType = "application/json; charset=utf-8".toMediaType()
             val requestBody = Usuario(binding.nombre.text.toString(), binding.contrasenia.text.toString()).toString().toRequestBody(mediaType)
-
             request.post(requestBody)
 
             val call = client.newCall(request.build())
@@ -78,9 +79,9 @@ class Login : AppCompatActivity() {
                             Toast.makeText(this@Login, body, Toast.LENGTH_SHORT).show()
 
                         }
-                            //val intent = Intent(this@Login, MainActivity::class.java)
-
-                            //startActivity(intent)
+                        val intent = Intent(this@Login, MainActivity::class.java)
+                        intent.putExtra("TokenUser",body)
+                        startActivity(intent)
                         }
                     }
 
