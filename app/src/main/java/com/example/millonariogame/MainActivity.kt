@@ -20,21 +20,18 @@ import java.io.IOException
 class MainActivity : AppCompatActivity() {
 
 
-
-    lateinit var binding:ActivityMainBinding
-    //companion Object?
-
-        var aciertos=0
-        var totales=0
+    lateinit var binding: ActivityMainBinding
 
 
+    var aciertos = 0
+    var totales = 0
 
 
-    override fun onCreate(savedInstanceState: Bundle?){
+    override fun onCreate(savedInstanceState: Bundle?) {
 
 
         super.onCreate(savedInstanceState)
-        binding= ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
         val initialData = intent.getStringExtra("TokenUser")
@@ -43,10 +40,9 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-
     }
 
-    private fun llamada(token:String) {
+    private fun llamada(token: String) {
 
         binding.pbDownloading.visibility = View.VISIBLE
 
@@ -58,11 +54,11 @@ class MainActivity : AppCompatActivity() {
 
 
         val call = client.newCall(request.build())
-        call.enqueue( object : Callback {
+        call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
 
                 println(e.toString())
-                CoroutineScope(Dispatchers.Main).launch{
+                CoroutineScope(Dispatchers.Main).launch {
                     Toast.makeText(this@MainActivity, "fallo", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -73,7 +69,8 @@ class MainActivity : AppCompatActivity() {
                     println(body)
                     val gson = GsonBuilder().create()
 
-                    val listapreguntas: List<Respuesta> = gson.fromJson(body, Array<Respuesta>::class.java).toList()
+                    val listapreguntas: List<Respuesta> =
+                        gson.fromJson(body, Array<Respuesta>::class.java).toList()
 
                     CoroutineScope(Dispatchers.Main).launch {
 
@@ -84,12 +81,13 @@ class MainActivity : AppCompatActivity() {
 
 
                         val call = client.newCall(request.build())
-                        call.enqueue( object : Callback {
+                        call.enqueue(object : Callback {
                             override fun onFailure(call: Call, e: IOException) {
 
                                 println(e.toString())
-                                CoroutineScope(Dispatchers.Main).launch{
-                                    Toast.makeText(this@MainActivity, "fallo", Toast.LENGTH_SHORT).show()
+                                CoroutineScope(Dispatchers.Main).launch {
+                                    Toast.makeText(this@MainActivity, "fallo", Toast.LENGTH_SHORT)
+                                        .show()
                                 }
                             }
 
@@ -102,70 +100,151 @@ class MainActivity : AppCompatActivity() {
 
                                     val pregunta = gson.fromJson(body, Pregunta::class.java)
 
-                                    if(pregunta.id==10){
+                                    if (pregunta.id == 10) {
                                         CoroutineScope(Dispatchers.Main).launch {
                                             binding.pbDownloading.visibility = View.VISIBLE
-                                            binding.texto.text = "Ya has contestado todas las preguntas disponibles gracias por jugar"
+                                            binding.texto.text =
+                                                "Ya has contestado todas las preguntas disponibles gracias por jugar"
                                             binding.buttonA.visibility = View.GONE
                                             binding.buttonB.visibility = View.GONE
                                             binding.buttonC.visibility = View.GONE
                                             binding.buttonD.visibility = View.GONE
-                                            binding.nuevoJugo.visibility=View.VISIBLE
-                                            binding.nuevoJugo.setOnClickListener{
+                                            binding.nuevoJugo.visibility = View.VISIBLE
+                                            binding.nuevoJugo.setOnClickListener {
                                                 finish()
                                             }
 
                                         }
-                                    }else {
-                                    val respuesta=listapreguntas[pregunta.id].solucion
-                                    CoroutineScope(Dispatchers.Main).launch {
+                                    } else {
+                                        val respuesta = listapreguntas[pregunta.id].solucion
+                                        CoroutineScope(Dispatchers.Main).launch {
 
-                                        binding.pbDownloading.visibility=View.GONE
+                                            binding.pbDownloading.visibility = View.GONE
 
-                                        binding.texto.setText(pregunta.pregunta)
-                                        binding.buttonA.setText(pregunta.respuesta1)
-                                        binding.buttonB.setText(pregunta.respuesta2)
-                                        binding.buttonC.setText(pregunta.respuesta3)
-                                        binding.buttonD.setText(pregunta.respuesta4)
+                                            binding.texto.setText(pregunta.pregunta)
+                                            binding.buttonA.setText(pregunta.respuesta1)
+                                            binding.buttonB.setText(pregunta.respuesta2)
+                                            binding.buttonC.setText(pregunta.respuesta3)
+                                            binding.buttonD.setText(pregunta.respuesta4)
 
-                                        binding.buttonA.setOnClickListener {
-                                            binding.buttonA.setBackgroundColor(Color.parseColor("#995FFF"))
-                                            binding.buttonB.setBackgroundColor(Color.parseColor("#4719B2"))
-                                            binding.buttonC.setBackgroundColor(Color.parseColor("#4719B2"))
-                                            binding.buttonD.setBackgroundColor(Color.parseColor("#4719B2"))
-                                            activarEnviar(binding.buttonA.text.toString(),respuesta,token)
+                                            binding.buttonA.setOnClickListener {
+                                                binding.buttonA.setBackgroundColor(
+                                                    Color.parseColor(
+                                                        "#995FFF"
+                                                    )
+                                                )
+                                                binding.buttonB.setBackgroundColor(
+                                                    Color.parseColor(
+                                                        "#4719B2"
+                                                    )
+                                                )
+                                                binding.buttonC.setBackgroundColor(
+                                                    Color.parseColor(
+                                                        "#4719B2"
+                                                    )
+                                                )
+                                                binding.buttonD.setBackgroundColor(
+                                                    Color.parseColor(
+                                                        "#4719B2"
+                                                    )
+                                                )
+                                                activarEnviar(
+                                                    binding.buttonA.text.toString(),
+                                                    respuesta,
+                                                    token
+                                                )
+
+                                            }
+
+                                            binding.buttonB.setOnClickListener {
+                                                binding.buttonB.setBackgroundColor(
+                                                    Color.parseColor(
+                                                        "#995FFF"
+                                                    )
+                                                )
+                                                binding.buttonA.setBackgroundColor(
+                                                    Color.parseColor(
+                                                        "#4719B2"
+                                                    )
+                                                )
+                                                binding.buttonC.setBackgroundColor(
+                                                    Color.parseColor(
+                                                        "#4719B2"
+                                                    )
+                                                )
+                                                binding.buttonD.setBackgroundColor(
+                                                    Color.parseColor(
+                                                        "#4719B2"
+                                                    )
+                                                )
+                                                activarEnviar(
+                                                    binding.buttonB.text.toString(),
+                                                    respuesta,
+                                                    token
+                                                )
+                                            }
+
+                                            binding.buttonC.setOnClickListener {
+                                                binding.buttonC.setBackgroundColor(
+                                                    Color.parseColor(
+                                                        "#995FFF"
+                                                    )
+                                                )
+                                                binding.buttonA.setBackgroundColor(
+                                                    Color.parseColor(
+                                                        "#4719B2"
+                                                    )
+                                                )
+                                                binding.buttonB.setBackgroundColor(
+                                                    Color.parseColor(
+                                                        "#4719B2"
+                                                    )
+                                                )
+                                                binding.buttonD.setBackgroundColor(
+                                                    Color.parseColor(
+                                                        "#4719B2"
+                                                    )
+                                                )
+                                                activarEnviar(
+                                                    binding.buttonC.text.toString(),
+                                                    respuesta,
+                                                    token
+                                                )
+                                            }
+
+                                            binding.buttonD.setOnClickListener {
+                                                binding.buttonD.setBackgroundColor(
+                                                    Color.parseColor(
+                                                        "#995FFF"
+                                                    )
+                                                )
+                                                binding.buttonA.setBackgroundColor(
+                                                    Color.parseColor(
+                                                        "#4719B2"
+                                                    )
+                                                )
+                                                binding.buttonB.setBackgroundColor(
+                                                    Color.parseColor(
+                                                        "#4719B2"
+                                                    )
+                                                )
+                                                binding.buttonC.setBackgroundColor(
+                                                    Color.parseColor(
+                                                        "#4719B2"
+                                                    )
+                                                )
+                                                activarEnviar(
+                                                    binding.buttonD.text.toString(),
+                                                    respuesta,
+                                                    token
+                                                )
+                                            }
 
                                         }
-
-                                        binding.buttonB.setOnClickListener {
-                                            binding.buttonB.setBackgroundColor(Color.parseColor("#995FFF"))
-                                            binding.buttonA.setBackgroundColor(Color.parseColor("#4719B2"))
-                                            binding.buttonC.setBackgroundColor(Color.parseColor("#4719B2"))
-                                            binding.buttonD.setBackgroundColor(Color.parseColor("#4719B2"))
-                                            activarEnviar(binding.buttonB.text.toString(),respuesta,token)
-                                        }
-
-                                        binding.buttonC.setOnClickListener {
-                                            binding.buttonC.setBackgroundColor(Color.parseColor("#995FFF"))
-                                            binding.buttonA.setBackgroundColor(Color.parseColor("#4719B2"))
-                                            binding.buttonB.setBackgroundColor(Color.parseColor("#4719B2"))
-                                            binding.buttonD.setBackgroundColor(Color.parseColor("#4719B2"))
-                                            activarEnviar(binding.buttonC.text.toString(),respuesta,token)
-                                        }
-
-                                        binding.buttonD.setOnClickListener {
-                                            binding.buttonD.setBackgroundColor(Color.parseColor("#995FFF"))
-                                            binding.buttonA.setBackgroundColor(Color.parseColor("#4719B2"))
-                                            binding.buttonB.setBackgroundColor(Color.parseColor("#4719B2"))
-                                            binding.buttonC.setBackgroundColor(Color.parseColor("#4719B2"))
-                                            activarEnviar(binding.buttonD.text.toString(),respuesta,token)
-                                        }
-
-                                    }
                                     }
                                 }
                             }
-                         })
+                        })
                     }
                 }
             }
@@ -173,38 +252,42 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun activarEnviar(resSeleccionada:String, solucion:String,token: String){
+    fun activarEnviar(resSeleccionada: String, solucion: String, token: String) {
 
-            binding.enviar.isVisible=true
-            var mirespuesta=resSeleccionada
-            var misolucion=solucion
+        binding.enviar.isVisible = true
+        var mirespuesta = resSeleccionada
+        var misolucion = solucion
 
-            binding.enviar.setOnClickListener {
-                if(mirespuesta==misolucion){
-                    Toast.makeText(this@MainActivity,"Has hacertado", Toast.LENGTH_SHORT).show()
-                    aciertos++
-                    totales++
-                    binding.preguntasAciertos.text = aciertos.toString()
-                    binding.preguntastotales.text= totales.toString()
-                    binding.enviar.visibility=View.GONE
+        binding.enviar.setOnClickListener {
+            if (mirespuesta == misolucion) {
+                Toast.makeText(this@MainActivity, "Has hacertado", Toast.LENGTH_SHORT).show()
+                aciertos++
+                totales++
+                binding.preguntasAciertos.text = aciertos.toString()
+                binding.preguntastotales.text = totales.toString()
+                binding.enviar.visibility = View.GONE
 
-                }else{
+            } else {
 
-                    totales++
-                    binding.preguntasAciertos.text= aciertos.toString()
-                    binding.preguntastotales.text= totales.toString()
-                    Toast.makeText(this@MainActivity,"Has fallado"+resSeleccionada+solucion, Toast.LENGTH_SHORT).show()
-                    binding.enviar.visibility=View.GONE
-                }
+                totales++
+                binding.preguntasAciertos.text = aciertos.toString()
+                binding.preguntastotales.text = totales.toString()
+                Toast.makeText(
+                    this@MainActivity,
+                    "Has fallado" + resSeleccionada + solucion,
+                    Toast.LENGTH_SHORT
+                ).show()
+                binding.enviar.visibility = View.GONE
+            }
 
 
-                llamada(token)
+            llamada(token)
         }
 
 
     }
 
-    fun reseteoColorBotones(){
+    fun reseteoColorBotones() {
         binding.buttonA.setBackgroundColor(Color.parseColor("#4719B2"))
         binding.buttonB.setBackgroundColor(Color.parseColor("#4719B2"))
         binding.buttonC.setBackgroundColor(Color.parseColor("#4719B2"))
